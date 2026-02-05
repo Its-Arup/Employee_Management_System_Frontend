@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -54,6 +54,7 @@ const registrationSchema = z.object({
 type RegistrationFormValues = z.infer<typeof registrationSchema>;
 
 export function RegistrationPage() {
+  const navigate = useNavigate();
   const form = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
@@ -70,7 +71,8 @@ export function RegistrationPage() {
   const onSubmit = (data: RegistrationFormValues) => {
     console.log("Registration data:", data);
     // Here you would typically send the data to your backend API
-    alert("Registration successful! Check console for data.");
+    // After successful registration, navigate to OTP verification
+    navigate("/verify-otp", { state: { email: data.email } });
   };
 
   return (
