@@ -1,13 +1,14 @@
-import { RegistrationPage } from "./components/RegistrationPage"
-
+import { BrowserRouter } from "react-router-dom";
+import { AppRoutes } from "@/routes";
 
 function App() {
   return (
     <div className="dark">
-      {/* Your app components go here */}
-      <RegistrationPage />
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

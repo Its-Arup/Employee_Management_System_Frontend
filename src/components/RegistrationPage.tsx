@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -257,9 +258,9 @@ export function RegistrationPage() {
 
               <p className="text-center text-sm text-muted-foreground mt-4">
                 Already have an account?{" "}
-                <a href="#" className="text-primary hover:underline font-medium">
+                <Link to="/login" className="text-primary hover:underline font-medium">
                   Sign in
-                </a>
+                </Link>
               </p>
             </form>
           </Form>
