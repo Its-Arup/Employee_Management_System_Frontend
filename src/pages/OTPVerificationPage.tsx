@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "sonner";
+import { useVerifyOTPMutation, useResendOTPMutation } from "@/store/api/authApi";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -41,7 +41,8 @@ type OTPFormValues = z.infer<typeof otpSchema>;
 export function OTPVerificationPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isResending, setIsResending] = useState(false);
+  const [verifyOTP, { isLoading: isVerifying }] = useVerifyOTPMutation();
+  const [resendOTP, { isLoading: isResending }] = useResendOTPMutation();
   
   // Get email from navigation state (passed from registration page)
   const email = location.state?.email || "your email";
@@ -53,26 +54,41 @@ export function OTPVerificationPage() {
     },
   });
 
-  const onSubmit = (data: OTPFormValues) => {
-    console.log("OTP data:", data);
-    // Here you would typically verify the OTP with your backend API
-    toast.success("Email verified successfully!", {
-      description: "Your account has been verified. Please login to continue.",
-    });
-    // After successful verification, navigate to login
-    setTimeout(() => navigate("/login"), 1500);
+  const onSubmit = async (data: OTPFormValues) => {
+    try {
+      const response = await verifyOTP({ email, otp: data.otp }).unwrap();
+      console.log("OTP verification response:", response);
+      
+      toast.success("Email verified successfully!", {
+        description: "Your account has been verified. Please login to continue.",
+      });
+      
+      // Navigate immediately after successful verification
+      navigate("/login");
+    } catch (error: any) {
+      console.error("OTP verification error:", error);
+      
+      toast.error("Verification failed", {
+        description: error?.data?.message || "Invalid or expired code. Please try again.",
+      });
+    }
   };
 
-  const handleResendOTP = () => {
-    setIsResending(true);
-    // Here you would typically call your backend to resend OTP
-    console.log("Resending OTP to:", email);
-    setTimeout(() => {
-      setIsResending(false);
+  const handleResendOTP = async () => {
+    try {
+      const response = await resendOTP({ email }).unwrap();
+      console.log("Resend OTP response:", response);
+      
       toast.success("Code resent!", {
         description: "A new verification code has been sent to your email.",
       });
-    }, 2000);
+    } catch (error: any) {
+      console.error("Resend OTP error:", error);
+      
+      toast.error("Failed to resend code", {
+        description: error?.data?.message || "Something went wrong. Please try again.",
+      });
+    }
   };
 
   return (
@@ -124,8 +140,12 @@ export function OTPVerificationPage() {
                 )}
               />
 
-              <Button type="submit" className="w-full h-11 text-base font-semibold cursor-pointer">
-                Verify Email
+              <Button 
+                type="submit" 
+                className="w-full h-11 text-base font-semibold cursor-pointer"
+                disabled={isVerifying}
+              >
+                {isVerifying ? "Verifying..." : "Verify Email"}
               </Button>
 
               <div className="text-center">

@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { LoginPage } from "@/components/LoginPage";
-import { RegistrationPage } from "@/components/RegistrationPage";
-import { OTPVerificationPage } from "@/components/OTPVerificationPage";
+import { LoginPage } from "@/pages/LoginPage";
+import { RegistrationPage } from "@/pages/RegistrationPage";
+import { OTPVerificationPage } from "@/pages/OTPVerificationPage";
 
 export function AppRoutes() {
   return (

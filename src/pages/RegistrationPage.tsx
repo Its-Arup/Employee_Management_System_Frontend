@@ -4,6 +4,7 @@ import * as z from "zod";
 import { format } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useRegisterMutation } from "@/store/api/authApi";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -56,6 +57,8 @@ type RegistrationFormValues = z.infer<typeof registrationSchema>;
 
 export function RegistrationPage() {
   const navigate = useNavigate();
+  const [register, { isLoading }] = useRegisterMutation();
+  
   const form = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
@@ -69,14 +72,24 @@ export function RegistrationPage() {
     },
   });
 
-  const onSubmit = (data: RegistrationFormValues) => {
-    console.log("Registration data:", data);
-    // Here you would typically send the data to your backend API
-    toast.success("Registration successful!", {
-      description: "Please check your email for the verification code.",
-    });
-    // After successful registration, navigate to OTP verification
-    setTimeout(() => navigate("/verify-otp", { state: { email: data.email } }), 1000);
+  const onSubmit = async (data: RegistrationFormValues) => {
+    try {
+      const response = await register(data).unwrap();
+      console.log("Registration response:", response);
+      
+      toast.success("Registration successful!", {
+        description: "Please check your email for the verification code.",
+      });
+      
+      // After successful registration, navigate to OTP verification
+      navigate("/verify-otp", { state: { email: data.email } });
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      
+      toast.error("Registration failed", {
+        description: error?.data?.message || "Something went wrong. Please try again.",
+      });
+    }
   };
 
   return (
@@ -258,8 +271,12 @@ export function RegistrationPage() {
                 )}
               />
 
-              <Button type="submit" className="w-full h-11 text-base font-semibold">
-                Create Account
+              <Button 
+                type="submit" 
+                className="w-full h-11 text-base font-semibold"
+                disabled={isLoading}
+              >
+                {isLoading ? "Creating Account..." : "Create Account"}
               </Button>
 
               <p className="text-center text-sm text-muted-foreground mt-4">
