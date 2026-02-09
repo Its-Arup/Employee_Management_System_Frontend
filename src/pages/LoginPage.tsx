@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useLoginMutation } from "@/store/api/authApi";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -31,6 +32,9 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginPage() {
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+  
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -39,12 +43,34 @@ export function LoginPage() {
     },
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    console.log("Login data:", data);
-    // Here you would typically send the data to your backend API
-    toast.success("Login successful!", {
-      description: "Welcome back! Redirecting to dashboard...",
-    });
+  const onSubmit = async (data: LoginFormValues) => {
+    try {
+      const response = await login(data).unwrap();
+      console.log("Login response:", response);
+      
+      // Store the token in localStorage
+      if (response.data.accessToken) {
+        localStorage.setItem('accessToken', response.data.accessToken);
+      }
+
+      if(response.data.refreshToken) {
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+      }
+      
+      toast.success("Login successful!", {
+        description: `Welcome back, ${response.data.user.displayName}!`,
+      });
+      
+      // Navigate to dashboard after successful login
+      navigate("/dashboard");
+
+    } catch (error: any) {
+      console.error("Login error:", error);
+      
+      toast.error("Login failed", {
+        description: error?.data?.message || "Invalid email or password. Please try again.",
+      });
+    }
   };
 
   return (
@@ -110,8 +136,12 @@ export function LoginPage() {
                 </a>
               </div>
 
-              <Button type="submit" className="w-full h-11 text-base font-semibold">
-                Sign In
+              <Button 
+                type="submit" 
+                className="w-full h-11 text-base font-semibold"
+                disabled={isLoading}
+              >
+                {isLoading ? "Signing In..." : "Sign In"}
               </Button>
 
               <p className="text-center text-sm text-muted-foreground mt-4">
