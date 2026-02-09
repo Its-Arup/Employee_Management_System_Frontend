@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -55,9 +56,11 @@ export function OTPVerificationPage() {
   const onSubmit = (data: OTPFormValues) => {
     console.log("OTP data:", data);
     // Here you would typically verify the OTP with your backend API
-    alert("OTP verified successfully! Check console for data.");
+    toast.success("Email verified successfully!", {
+      description: "Your account has been verified. Please login to continue.",
+    });
     // After successful verification, navigate to login
-    navigate("/login");
+    setTimeout(() => navigate("/login"), 1500);
   };
 
   const handleResendOTP = () => {
@@ -66,7 +69,9 @@ export function OTPVerificationPage() {
     console.log("Resending OTP to:", email);
     setTimeout(() => {
       setIsResending(false);
-      alert("OTP has been resent to your email!");
+      toast.success("Code resent!", {
+        description: "A new verification code has been sent to your email.",
+      });
     }, 2000);
   };
 

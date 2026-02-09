@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -41,7 +42,9 @@ export function LoginPage() {
   const onSubmit = (data: LoginFormValues) => {
     console.log("Login data:", data);
     // Here you would typically send the data to your backend API
-    alert("Login successful! Check console for data.");
+    toast.success("Login successful!", {
+      description: "Welcome back! Redirecting to dashboard...",
+    });
   };
 
   return (

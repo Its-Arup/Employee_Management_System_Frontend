@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -71,8 +72,11 @@ export function RegistrationPage() {
   const onSubmit = (data: RegistrationFormValues) => {
     console.log("Registration data:", data);
     // Here you would typically send the data to your backend API
+    toast.success("Registration successful!", {
+      description: "Please check your email for the verification code.",
+    });
     // After successful registration, navigate to OTP verification
-    navigate("/verify-otp", { state: { email: data.email } });
+    setTimeout(() => navigate("/verify-otp", { state: { email: data.email } }), 1000);
   };
 
   return (
