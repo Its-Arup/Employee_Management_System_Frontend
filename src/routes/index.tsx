@@ -12,6 +12,7 @@ import { MySalariesPage } from "@/pages/MySalariesPage";
 import { PendingUsersPage } from "@/pages/PendingUsersPage";
 import { LeaveManagementPage } from "@/pages/LeaveManagementPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
+import { Layout } from "@/components/Layout";
 
 
 export function AppRoutes() {
@@ -45,7 +46,9 @@ export function AppRoutes() {
         path="/profile"
         element={
           <ProtectedRoute>
-            <ProfilePage />
+            <Layout>
+              <ProfilePage />
+            </Layout>
           </ProtectedRoute>
         }
       />
@@ -53,7 +56,9 @@ export function AppRoutes() {
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <DashboardPage />
+            <Layout>
+              <DashboardPage />
+            </Layout>
           </ProtectedRoute>
         }
       />
@@ -61,7 +66,9 @@ export function AppRoutes() {
         path="/leaves/apply"
         element={
           <ProtectedRoute>
-            <ApplyLeavePage />
+            <Layout>
+              <ApplyLeavePage />
+            </Layout>
           </ProtectedRoute>
         }
       />
@@ -69,7 +76,9 @@ export function AppRoutes() {
         path="/leaves/my-leaves"
         element={
           <ProtectedRoute>
-            <MyLeavesPage />
+            <Layout>
+              <MyLeavesPage />
+            </Layout>
           </ProtectedRoute>
         }
       />
@@ -77,7 +86,9 @@ export function AppRoutes() {
         path="/leaves/manage"
         element={
           <ProtectedRoute>
-            <LeaveManagementPage />
+            <Layout>
+              <LeaveManagementPage />
+            </Layout>
           </ProtectedRoute>
         }
       />
@@ -85,7 +96,9 @@ export function AppRoutes() {
         path="/salaries"
         element={
           <ProtectedRoute>
-            <MySalariesPage />
+            <Layout>
+              <MySalariesPage />
+            </Layout>
           </ProtectedRoute>
         }
       />
@@ -93,7 +106,9 @@ export function AppRoutes() {
         path="/admin/pending-users"
         element={
           <ProtectedRoute>
-            <PendingUsersPage />
+            <Layout>
+              <PendingUsersPage />
+            </Layout>
           </ProtectedRoute>
         }
       />

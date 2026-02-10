@@ -91,19 +91,22 @@ export function MyLeavesPage() {
   const pagination = leavesData?.data?.pagination;
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
+    <div className="h-full flex flex-col">
+      {/* Header */}
+      <header className="bg-card border-b border-border p-4 sticky top-0 z-10">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">My Leaves</h1>
-            <p className="text-muted-foreground mt-1">Manage your leave requests and balance</p>
+            <h1 className="text-2xl font-bold text-primary">My Leaves</h1>
+            <p className="text-muted-foreground text-sm">Manage your leave requests and balance</p>
           </div>
           <Button onClick={() => navigate('/leaves/apply')} className="cursor-pointer">
             <Plus className="w-4 h-4 mr-2" />
             Apply for Leave
           </Button>
         </div>
+      </header>
+
+      <div className="p-6 space-y-6">
 
         {/* Leave Balance Cards */}
         {balance && (

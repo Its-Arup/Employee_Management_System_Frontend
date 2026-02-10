@@ -97,15 +97,18 @@ export function LeaveManagementPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
+    <div className="h-full flex flex-col">
+      {/* Header */}
+      <header className="bg-card border-b border-border p-4 sticky top-0 z-10">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Leave Management</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className="text-2xl font-bold text-primary">Leave Management</h1>
+          <p className="text-muted-foreground text-sm">
             Review and manage pending leave requests ({leaves.length} pending)
           </p>
         </div>
+      </header>
+
+      <div className="p-6 space-y-6">
 
         {/* Pending Leaves List */}
         {leaves.length === 0 ? (

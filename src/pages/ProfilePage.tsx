@@ -1,5 +1,4 @@
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -7,24 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
-import { LayoutDashboard, LogOut, User } from 'lucide-react';
+import { User } from 'lucide-react';
 import { formatDate } from '@/helper/formatDate';
 
 
 export function ProfilePage() {
   const { user, isLoading } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    toast.success('Logged out successfully', {
-      description: 'You have been logged out of your account.',
-    });
-    navigate('/login');
-  };
 
   if (isLoading) {
     return (
@@ -38,29 +25,16 @@ export function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8 pt-8">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <LayoutDashboard className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-primary">Profile</h1>
-              <p className="text-muted-foreground">Welcome back!</p>
-            </div>
-          </div>
-          <Button
-            variant="outline"
-            onClick={handleLogout}
-            className="flex items-center gap-2 text-primary cursor-pointer"
-          >
-            <LogOut className="w-4 h-4" />
-            Logout
-          </Button>
+    <div className="h-full flex flex-col">
+      {/* Header */}
+      <header className="bg-card border-b border-border p-4 sticky top-0 z-10">
+        <div>
+          <h1 className="text-2xl font-bold text-primary">Profile</h1>
+          <p className="text-muted-foreground text-sm">View and manage your profile information</p>
         </div>
+      </header>
 
+      <div className="p-6">
         {/* User Info Card */}
         <Card className="mb-6">
           <CardHeader>

@@ -39,18 +39,18 @@ export function ApplyLeavePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-3xl mx-auto">
-        <Button
-          variant="ghost"
-          className="mb-6 cursor-pointer"
-          onClick={() => navigate('/leaves/my-leaves')}
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to My Leaves
-        </Button>
+    <div className="h-full flex flex-col">
+      {/* Header */}
+      <header className="bg-card border-b border-border p-4 sticky top-0 z-10">
+        <div>
+          <h1 className="text-2xl font-bold text-primary">Apply for Leave</h1>
+          <p className="text-muted-foreground text-sm">Submit a new leave request</p>
+        </div>
+      </header>
 
-        <Card>
+      <div className="p-6">
+        <div className="max-w-3xl mx-auto">
+          <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
               <Calendar className="w-8 h-8 text-primary" />
@@ -183,6 +183,7 @@ export function ApplyLeavePage() {
             </form>
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   );

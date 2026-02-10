@@ -1,5 +1,4 @@
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -8,49 +7,25 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 import {
-  LayoutDashboard,
-  LogOut,
   User,
   Calendar,
   DollarSign,
   Clock,
   UserCheck,
-  Menu,
-  X,
 } from 'lucide-react';
 import { formatDate } from '@/helper/formatDate';
-import { useState } from 'react';
 
 const DashboardPage = () => {
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    toast.success('Logged out successfully', {
-      description: 'You have been logged out of your account.',
-    });
-    navigate('/login');
-  };
 
   // Check if user has admin/hr/manager roles
   const isAdmin = user?.roles?.includes('admin');
   const isHR = user?.roles?.includes('hr');
   const isManager = user?.roles?.includes('manager');
   const hasManagementAccess = isAdmin || isHR || isManager;
-
-  const navigationItems = [
-    { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', active: true, show: true },
-    { name: 'My Leaves', icon: Calendar, path: '/leaves/my-leaves', active: false, show: true },
-    { name: 'My Salary', icon: DollarSign, path: '/salaries', active: false, show: true },
-    { name: 'Profile', icon: User, path: '/profile', active: false, show: true },
-    { name: 'Leave Requests', icon: Clock, path: '/leaves/manage', active: false, show: hasManagementAccess },
-    { name: 'Pending Users', icon: UserCheck, path: '/admin/pending-users', active: false, show: isAdmin || isHR },
-  ];
 
   if (isLoading) {
     return (
@@ -64,89 +39,17 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Sidebar Navigation */}
-      <aside
-        className={`${
-          isSidebarOpen ? 'w-64' : 'w-20'
-        } bg-card border-r border-border transition-all duration-300 flex flex-col`}
-      >
-        {/* Sidebar Header */}
-        <div className="p-4 border-b border-border flex items-center justify-between">
-          {isSidebarOpen && (
-            <h2 className="text-xl font-bold text-foreground">EMS</h2>
-          )}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </Button>
+    <div className="h-full flex flex-col">
+      {/* Top Bar */}
+      <header className="bg-card border-b border-border p-4 sticky top-0 z-10">
+        <div>
+          <h1 className="text-2xl font-bold text-primary">Dashboard</h1>
+          <p className="text-muted-foreground text-sm">Welcome back, {user?.displayName}!</p>
         </div>
+      </header>
 
-        {/* Navigation Items */}
-        <nav className="flex-1 p-4 space-y-2">
-          {navigationItems.filter(item => item.show).map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.name}
-                onClick={() => navigate(item.path)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  item.active
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                }`}
-              >
-                <Icon className="w-5 h-5 shrink-0" />
-                {isSidebarOpen && <span className="font-medium">{item.name}</span>}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* User Profile Section */}
-        <div className="p-4 border-t border-border">
-          <div className={`flex items-center gap-3 ${isSidebarOpen ? '' : 'justify-center'}`}>
-            <div className="w-10 h-10 rounded-full bg-linear-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground font-semibold shrink-0">
-              {user?.displayName?.charAt(0).toUpperCase()}
-            </div>
-            {isSidebarOpen && (
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">
-                  {user?.displayName}
-                </p>
-                <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        {/* Top Bar */}
-        <header className="bg-card border-b border-border p-4 sticky top-0 z-10">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-primary">Dashboard</h1>
-              <p className="text-muted-foreground text-sm">Welcome back, {user?.displayName}!</p>
-            </div>
-            <Button
-              variant="outline"
-              onClick={handleLogout}
-              className="flex items-center gap-2 text-primary cursor-pointer"
-            >
-              <LogOut className="w-4 h-4" />
-              Logout
-            </Button>
-          </div>
-        </header>
-
-        {/* Dashboard Content */}
-        <div className="p-6 space-y-6">
+      {/* Dashboard Content */}
+      <div className="p-6 space-y-6">
           {/* User Info Card */}
           <Card>
             <CardHeader>
@@ -338,8 +241,7 @@ const DashboardPage = () => {
             </CardContent>
           </Card>
         </div>
-      </main>
-    </div>
+      </div>
   );
 };
 
