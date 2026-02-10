@@ -138,7 +138,7 @@ export function LoginPage() {
 
               <Button 
                 type="submit" 
-                className="w-full h-11 text-base font-semibold"
+                className="w-full h-11 text-base font-semibold cursor-pointer"
                 disabled={isLoading}
               >
                 {isLoading ? "Signing In..." : "Sign In"}

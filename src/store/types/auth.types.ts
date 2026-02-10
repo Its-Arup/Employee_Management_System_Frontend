@@ -9,6 +9,7 @@ export interface User {
   dateOfBirth?: string;
   phoneNumber?: string;
   address?: string;
+  isEmailVerified: boolean;
 }
 
 // Registration

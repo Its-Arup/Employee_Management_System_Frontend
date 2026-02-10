@@ -203,7 +203,7 @@ export function RegistrationPage() {
                             <Button
                               variant={"outline"}
                               className={cn(
-                                "w-full pl-3 text-left font-normal",
+                                "w-full pl-3 text-left font-normal cursor-pointer",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
@@ -273,7 +273,7 @@ export function RegistrationPage() {
 
               <Button 
                 type="submit" 
-                className="w-full h-11 text-base font-semibold"
+                className="w-full h-11 text-base font-semibold cursor-pointer"
                 disabled={isLoading}
               >
                 {isLoading ? "Creating Account..." : "Create Account"}
