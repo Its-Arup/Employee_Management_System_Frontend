@@ -2,9 +2,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { LoginPage } from "@/pages/LoginPage";
 import { RegistrationPage } from "@/pages/RegistrationPage";
 import { OTPVerificationPage } from "@/pages/OTPVerificationPage";
-import { HomePage } from "@/pages/HomePage";
 import { ProtectedRoute } from "@/pages/ProtectedRoute";
 import { GuestRoute } from "@/pages/GuestRoute";
+import { ProfilePage } from "@/pages/ProfilePage";
+import { DashboardPage } from "@/pages/DashboardPage";
+
 
 export function AppRoutes() {
   return (
@@ -34,10 +36,18 @@ export function AppRoutes() {
         }
       />
       <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <HomePage />
+            <DashboardPage />
           </ProtectedRoute>
         }
       />

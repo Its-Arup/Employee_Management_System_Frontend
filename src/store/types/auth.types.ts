@@ -1,6 +1,6 @@
 // User model
 export interface User {
-  id: string;
+  _id: string;
   username: string;
   email: string;
   displayName: string;
@@ -58,6 +58,14 @@ export interface LoginResponse {
 
 // Get current user
 export interface MeResponse {
+  status: number;
+  success: boolean;
+  message: string;
+  data: User;
+}
+
+// User Profile
+export interface UserProfileResponse {
   status: number;
   success: boolean;
   message: string;

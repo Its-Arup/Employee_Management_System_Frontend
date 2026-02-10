@@ -8,6 +8,7 @@ import type {
   LoginRequest,
   LoginResponse,
   MeResponse,
+  UserProfileResponse,
   RefreshTokenRequest,
   RefreshTokenResponse,
 } from "../types/auth.types";
@@ -59,6 +60,14 @@ export const authApi = createApi({
       }),
       providesTags: ["Auth"],
     }),
+    // Get user profile query
+    getUserProfile: builder.query<UserProfileResponse, void>({
+      query: () => ({
+        url: "/users/profile",
+        method: "GET",
+      }),
+      providesTags: ["Auth"],
+    }),
     // Refresh token mutation
     refreshToken: builder.mutation<RefreshTokenResponse, RefreshTokenRequest>({
       query: (data) => ({
@@ -77,5 +86,6 @@ export const {
   useResendOTPMutation,
   useLoginMutation,
   useGetMeQuery,
+  useGetUserProfileQuery,
   useRefreshTokenMutation,
 } = authApi;

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useGetMeQuery } from '@/store/api/authApi';
+import { useGetUserProfileQuery } from '@/store/api/authApi';
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -11,7 +11,7 @@ export function useAuth() {
   const token = localStorage.getItem('accessToken');
   
   // Skip the query if there's no token
-  const { data, isLoading, isError, error } = useGetMeQuery(undefined, {
+  const { data, isLoading, isError, error } = useGetUserProfileQuery(undefined, {
     skip: !token,
   });
 
