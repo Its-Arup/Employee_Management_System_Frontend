@@ -11,6 +11,8 @@ import type {
   UserProfileResponse,
   RefreshTokenRequest,
   RefreshTokenResponse,
+  UpdateProfileRequest,
+  UpdateProfileResponse,
 } from "../types/auth.types";
 
 // Create the API slice
@@ -76,6 +78,15 @@ export const authApi = createApi({
         body: data,
       }),
     }),
+    // Update profile mutation
+    updateProfile: builder.mutation<UpdateProfileResponse, UpdateProfileRequest>({
+      query: (data) => ({
+        url: "/users/profile",
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Auth"],
+    }),
   }),
 });
 
@@ -88,4 +99,5 @@ export const {
   useGetMeQuery,
   useGetUserProfileQuery,
   useRefreshTokenMutation,
+  useUpdateProfileMutation,
 } = authApi;

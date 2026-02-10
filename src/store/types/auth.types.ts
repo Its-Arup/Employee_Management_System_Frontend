@@ -87,3 +87,21 @@ export interface RefreshTokenResponse {
     refreshToken: string;
   };
 }
+
+// Update Profile
+export interface UpdateProfileRequest {
+  displayName?: string;
+  dateOfBirth?: string;
+  phoneNumber?: string;
+  address?: string;
+  designation?: string;
+  department?: string;
+  profilePictureUrl?: string;
+}
+
+export interface UpdateProfileResponse {
+  status: number;
+  success: boolean;
+  message: string;
+  data: User;
+}
