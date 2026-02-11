@@ -6,6 +6,16 @@ import {
 } from '@/store/api/leaveApi';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Check, X,Clock, Calendar } from 'lucide-react';
 import { formatDate } from '@/helper/formatDate';
@@ -229,35 +239,42 @@ export function LeaveManagementPage() {
         )}
 
         {/* Approve/Reject Modal */}
-        {showModal && selectedLeave && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <Card className="w-full max-w-md">
-              <CardHeader>
-                <CardTitle>
-                  {showModal === 'approve' ? 'Approve Leave' : 'Reject Leave'}
-                </CardTitle>
-                <CardDescription>
-                  {showModal === 'approve'
-                    ? 'Add optional remarks and approve this leave request'
-                    : 'Provide a reason for rejecting this leave request'}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
+        <Dialog open={showModal !== null} onOpenChange={(open) => {
+          if (!open) {
+            setShowModal(null);
+            setSelectedLeave(null);
+            setRemarks('');
+          }
+        }}>
+          <DialogContent className="dark">
+            <DialogHeader>
+              <DialogTitle className='text-primary'>
+                {showModal === 'approve' ? 'Approve Leave' : 'Reject Leave'}
+              </DialogTitle>
+              <DialogDescription>
+                {showModal === 'approve'
+                  ? 'Add optional remarks and approve this leave request'
+                  : 'Provide a reason for rejecting this leave request'}
+              </DialogDescription>
+            </DialogHeader>
+            {selectedLeave && (
+              <div className="space-y-4">
                 <div className="p-4 bg-accent rounded-lg">
-                  <p className="text-sm font-medium">{selectedLeave.userId.displayName}</p>
+                  <p className="text-sm font-medium text-primary">{selectedLeave.userId.displayName}</p>
                   <p className="text-xs text-muted-foreground">
                     {formatDate(selectedLeave.startDate)} - {formatDate(selectedLeave.endDate)} ({selectedLeave.totalDays} days)
                   </p>
                 </div>
 
-                <div>
-                  <label className="text-sm font-medium">
+                <div className="space-y-2">
+                  <Label htmlFor="remarks" className='text-primary'>
                     Remarks {showModal === 'reject' && '*'}
-                  </label>
-                  <textarea
+                  </Label>
+                  <Textarea
+                    id="remarks"
+                    className='text-primary'
                     value={remarks}
                     onChange={(e) => setRemarks(e.target.value)}
-                    className="w-full px-3 py-2 border border-input rounded-md bg-background min-h-[100px] mt-2"
                     placeholder={
                       showModal === 'approve'
                         ? 'Add optional remarks...'
@@ -265,39 +282,39 @@ export function LeaveManagementPage() {
                     }
                     required={showModal === 'reject'}
                     minLength={showModal === 'reject' ? 10 : 0}
+                    rows={4}
                   />
                   {showModal === 'reject' && (
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="text-xs text-muted-foreground">
                       {remarks.length}/minimum 10 characters
                     </p>
                   )}
                 </div>
-
-                <div className="flex gap-2 pt-4">
-                  <Button
-                    onClick={showModal === 'approve' ? handleApprove : handleReject}
-                    disabled={showModal === 'reject' && remarks.length < 10}
-                    variant={showModal === 'approve' ? 'default' : 'destructive'}
-                    className="flex-1 cursor-pointer"
-                  >
-                    {showModal === 'approve' ? 'Approve' : 'Reject'}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setShowModal(null);
-                      setSelectedLeave(null);
-                      setRemarks('');
-                    }}
-                    className="cursor-pointer"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
+              </div>
+            )}
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowModal(null);
+                  setSelectedLeave(null);
+                  setRemarks('');
+                }}
+                className="cursor-pointer text-primary"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={showModal === 'approve' ? handleApprove : handleReject}
+                disabled={showModal === 'reject' && remarks.length < 10}
+                variant={showModal === 'approve' ? 'default' : 'destructive'}
+                className="cursor-pointer"
+              >
+                {showModal === 'approve' ? 'Approve' : 'Reject'}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
