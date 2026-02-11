@@ -6,8 +6,9 @@ import {
 } from '@/store/api/leaveApi';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Calendar, Plus, X, Clock, Check, Ban, AlertCircle } from 'lucide-react';
+import { Calendar, Plus, X, Clock, Check, Ban } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '@/helper/formatDate';
 
@@ -18,7 +19,7 @@ export function MyLeavesPage() {
   const year = new Date().getFullYear();
 
   const { data: leavesData, isLoading: leavesLoading } = useGetMyLeavesQuery({
-    status: statusFilter || undefined,
+    status: statusFilter && statusFilter !== 'all' ? statusFilter : undefined,
     page,
     limit: 10,
   });
@@ -43,10 +44,10 @@ export function MyLeavesPage() {
 
   const getStatusBadge = (status: string) => {
     const badges = {
-      pending: { icon: Clock, color: 'bg-yellow-100 text-yellow-800 border-yellow-300' },
-      approved: { icon: Check, color: 'bg-green-100 text-green-800 border-green-300' },
-      rejected: { icon: X, color: 'bg-red-100 text-red-800 border-red-300' },
-      cancelled: { icon: Ban, color: 'bg-gray-100 text-gray-800 border-gray-300' },
+      pending: { icon: Clock, color: 'bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-700' },
+      approved: { icon: Check, color: 'bg-green-100 text-green-800 border-green-300 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700' },
+      rejected: { icon: X, color: 'bg-red-100 text-red-800 border-red-300 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700' },
+      cancelled: { icon: Ban, color: 'bg-gray-100 text-gray-800 border-gray-300 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600' },
     };
     const badge = badges[status as keyof typeof badges] || badges.pending;
     const Icon = badge.icon;
@@ -61,12 +62,12 @@ export function MyLeavesPage() {
 
   const getLeaveTypeBadge = (type: string) => {
     const colors = {
-      casual: 'bg-blue-100 text-blue-800',
-      sick: 'bg-purple-100 text-purple-800',
-      paid: 'bg-green-100 text-green-800',
-      unpaid: 'bg-gray-100 text-gray-800',
-      maternity: 'bg-pink-100 text-pink-800',
-      paternity: 'bg-indigo-100 text-indigo-800',
+      casual: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+      sick: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
+      paid: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
+      unpaid: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300',
+      maternity: 'bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-300',
+      paternity: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300',
     };
     return (
       <span className={`px-2 py-1 rounded-md text-xs font-medium ${colors[type as keyof typeof colors]}`}>
@@ -163,21 +164,24 @@ export function MyLeavesPage() {
               <Label htmlFor="statusFilter" className="text-sm font-medium">
                 Filter by Status:
               </Label>
-              <select
-                id="statusFilter"
+              <Select
                 value={statusFilter}
-                onChange={(e) => {
-                  setStatusFilter(e.target.value);
+                onValueChange={(value) => {
+                  setStatusFilter(value);
                   setPage(1);
                 }}
-                className="px-3 py-2 border border-input rounded-md bg-background"
               >
-                <option value="">All Statuses</option>
-                <option value="pending">Pending</option>
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
+                <SelectTrigger className="w-45">
+                  <SelectValue placeholder="All Statuses" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Statuses</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="approved">Approved</SelectItem>
+                  <SelectItem value="rejected">Rejected</SelectItem>
+                  <SelectItem value="cancelled">Cancelled</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </CardContent>
         </Card>
@@ -211,7 +215,7 @@ export function MyLeavesPage() {
                           {getLeaveTypeBadge(leave.leaveType)}
                           {getStatusBadge(leave.status)}
                           {leave.isHalfDay && (
-                            <span className="px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-800">
+                            <span className="px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300">
                               Half Day ({leave.halfDayPeriod?.replace('-', ' ')})
                             </span>
                           )}

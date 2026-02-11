@@ -16,7 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { User, Edit, Save, X, Calendar as CalendarIcon, Phone, MapPin, Briefcase, Building } from 'lucide-react';
+import { User, Edit, Save, X, Calendar as CalendarIcon, Phone, MapPin, } from 'lucide-react';
 import { formatDate } from '@/helper/formatDate';
 import { useUpdateProfileMutation } from '@/store/api/authApi';
 import { toast } from 'sonner';

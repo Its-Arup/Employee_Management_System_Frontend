@@ -5,11 +5,11 @@ import { toast } from 'sonner';
 import {
   LayoutDashboard,
   LogOut,
-  User,
   Calendar,
   DollarSign,
   Clock,
   UserCheck,
+  Users,
   Menu,
   X,
 } from 'lucide-react';
@@ -47,6 +47,7 @@ export const Layout = ({ children }: LayoutProps) => {
     { name: 'My Salary', icon: DollarSign, path: '/salaries', show: true },
     { name: 'Leave Requests', icon: Clock, path: '/leaves/manage', show: hasManagementAccess },
     { name: 'Pending Users', icon: UserCheck, path: '/admin/pending-users', show: isAdmin || isHR },
+    { name: 'Manage Users', icon: Users, path: '/admin/users', show: isAdmin || isHR },
   ];
 
   return (

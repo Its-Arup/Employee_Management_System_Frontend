@@ -11,6 +11,8 @@ import { MyLeavesPage } from "@/pages/MyLeavesPage";
 import { MySalariesPage } from "@/pages/MySalariesPage";
 import { PendingUsersPage } from "@/pages/PendingUsersPage";
 import { LeaveManagementPage } from "@/pages/LeaveManagementPage";
+import { UserManagementPage } from "@/pages/UserManagementPage";
+import { EditUserPage } from "@/pages/EditUserPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { Layout } from "@/components/Layout";
 
@@ -108,6 +110,26 @@ export function AppRoutes() {
           <ProtectedRoute>
             <Layout>
               <PendingUsersPage />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/users"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <UserManagementPage />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/users/:userId/edit"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <EditUserPage />
             </Layout>
           </ProtectedRoute>
         }
