@@ -205,7 +205,7 @@ export function ProfilePage() {
                         {formData.dateOfBirth ? format(new Date(formData.dateOfBirth), "PPP") : <span>Pick a date</span>}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent className="w-auto p-0 dark" align="start">
                       <Calendar
                         mode="single"
                         captionLayout="dropdown"

@@ -12,6 +12,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Calendar as CalendarComponent } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
   Dialog,
   DialogContent,
@@ -21,8 +23,10 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { ArrowLeft, Save, Trash2, Shield, Ban, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Save, Trash2, Shield, Ban, CheckCircle, Calendar } from 'lucide-react';
 import { formatDate } from '@/helper/formatDate';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 export function EditUserPage() {
   const { userId } = useParams<{ userId: string }>();
@@ -284,21 +288,61 @@ export function EditUserPage() {
               </div>
               <div>
                 <Label htmlFor="dateOfBirth">Date of Birth</Label>
-                <Input
-                  id="dateOfBirth"
-                  type="date"
-                  value={formData.dateOfBirth}
-                  onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !formData.dateOfBirth && "text-muted-foreground"
+                      )}
+                    >
+                      <Calendar className="mr-2 h-4 w-4" />
+                      {formData.dateOfBirth ? format(new Date(formData.dateOfBirth), "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0 dark" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      captionLayout="dropdown"
+                      selected={formData.dateOfBirth ? new Date(formData.dateOfBirth) : undefined}
+                      onSelect={(date) => setFormData({ ...formData, dateOfBirth: date ? format(date, "yyyy-MM-dd") : '' })}
+                      disabled={(date) =>
+                        date > new Date() || date < new Date("1900-01-01")
+                      }
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
               <div>
                 <Label htmlFor="joiningDate">Joining Date</Label>
-                <Input
-                  id="joiningDate"
-                  type="date"
-                  value={formData.joiningDate}
-                  onChange={(e) => setFormData({ ...formData, joiningDate: e.target.value })}
-                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !formData.joiningDate && "text-muted-foreground"
+                      )}
+                    >
+                      <Calendar className="mr-2 h-4 w-4" />
+                      {formData.joiningDate ? format(new Date(formData.joiningDate), "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0 dark" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      captionLayout="dropdown"
+                      selected={formData.joiningDate ? new Date(formData.joiningDate) : undefined}
+                      onSelect={(date) => setFormData({ ...formData, joiningDate: date ? format(date, "yyyy-MM-dd") : '' })}
+                      disabled={(date) =>
+                        date < new Date("1900-01-01")
+                      }
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
               <div className="md:col-span-2">
                 <Label htmlFor="address">Address</Label>
@@ -373,7 +417,7 @@ export function EditUserPage() {
                 <SelectTrigger className="w-full md:w-50">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='dark'>
                   <SelectItem value="active">Active</SelectItem>
                   <SelectItem value="suspended">Suspended</SelectItem>
                 </SelectContent>

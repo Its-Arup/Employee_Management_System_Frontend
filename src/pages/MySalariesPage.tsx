@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useGetMySalariesQuery } from '@/store/api/salaryApi';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DollarSign, Calendar, Download, Eye } from 'lucide-react';
 import { formatDate } from '@/helper/formatDate';
 
@@ -59,18 +60,22 @@ export function MySalariesPage() {
           <CardContent className="pt-6">
             <div className="flex items-center gap-4">
               <label className="text-sm font-medium">Year:</label>
-              <select
-                value={year}
-                onChange={(e) => {
-                  setYear(Number(e.target.value));
+              <Select
+                value={year.toString()}
+                onValueChange={(value) => {
+                  setYear(Number(value));
                   setPage(1);
                 }}
-                className="px-3 py-2 border border-input rounded-md bg-background"
               >
-                {[2024, 2025, 2026, 2027].map((y) => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
+                <SelectTrigger className="w-45 dark">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className='dark'>
+                  {[2024, 2025, 2026, 2027].map((y) => (
+                    <SelectItem key={y} value={y.toString()}>{y}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </CardContent>
         </Card>

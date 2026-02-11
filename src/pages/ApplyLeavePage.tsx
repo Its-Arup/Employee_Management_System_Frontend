@@ -2,12 +2,16 @@ import { useState } from 'react';
 import { useApplyLeaveMutation } from '@/store/api/leaveApi';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Calendar as CalendarComponent } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { toast } from 'sonner';
-import { Calendar, ArrowLeft } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 export function ApplyLeavePage() {
   const navigate = useNavigate();
@@ -65,22 +69,25 @@ export function ApplyLeavePage() {
               {/* Leave Type */}
               <div className="space-y-2">
                 <Label htmlFor="leaveType">Leave Type *</Label>
-                <select
-                  id="leaveType"
+                <Select
                   value={formData.leaveType}
-                  onChange={(e) =>
-                    setFormData({ ...formData, leaveType: e.target.value as any })
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, leaveType: value as any })
                   }
-                  className="w-full px-3 py-2 border border-input rounded-md bg-background"
                   required
                 >
-                  <option value="casual">Casual Leave</option>
-                  <option value="sick">Sick Leave</option>
-                  <option value="paid">Paid Leave</option>
-                  <option value="unpaid">Unpaid Leave</option>
-                  <option value="maternity">Maternity Leave</option>
-                  <option value="paternity">Paternity Leave</option>
-                </select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select leave type" />
+                  </SelectTrigger>
+                  <SelectContent className='dark'>
+                    <SelectItem value="casual">Casual Leave</SelectItem>
+                    <SelectItem value="sick">Sick Leave</SelectItem>
+                    <SelectItem value="paid">Paid Leave</SelectItem>
+                    <SelectItem value="unpaid">Unpaid Leave</SelectItem>
+                    <SelectItem value="maternity">Maternity Leave</SelectItem>
+                    <SelectItem value="paternity">Paternity Leave</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Half Day Option */}
@@ -101,18 +108,21 @@ export function ApplyLeavePage() {
               {formData.isHalfDay && (
                 <div className="space-y-2">
                   <Label htmlFor="halfDayPeriod">Half Day Period *</Label>
-                  <select
-                    id="halfDayPeriod"
+                  <Select
                     value={formData.halfDayPeriod}
-                    onChange={(e) =>
-                      setFormData({ ...formData, halfDayPeriod: e.target.value as any })
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, halfDayPeriod: value as any })
                     }
-                    className="w-full px-3 py-2 border border-input rounded-md bg-background"
                     required
                   >
-                    <option value="first-half">First Half</option>
-                    <option value="second-half">Second Half</option>
-                  </select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select period" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="first-half">First Half</SelectItem>
+                      <SelectItem value="second-half">Second Half</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               )}
 
@@ -120,29 +130,60 @@ export function ApplyLeavePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="startDate">Start Date *</Label>
-                  <Input
-                    id="startDate"
-                    type="date"
-                    value={formData.startDate}
-                    onChange={(e) =>
-                      setFormData({ ...formData, startDate: e.target.value })
-                    }
-                    required
-                    min={new Date().toISOString().split('T')[0]}
-                  />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !formData.startDate && "text-muted-foreground"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {formData.startDate ? format(new Date(formData.startDate), "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 dark" align="start">
+                      <CalendarComponent
+                        mode="single"
+                        captionLayout="dropdown"
+                        selected={formData.startDate ? new Date(formData.startDate) : undefined}
+                        onSelect={(date) => setFormData({ ...formData, startDate: date ? format(date, "yyyy-MM-dd") : '' })}
+                        disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="endDate">End Date *</Label>
-                  <Input
-                    id="endDate"
-                    type="date"
-                    value={formData.endDate}
-                    onChange={(e) =>
-                      setFormData({ ...formData, endDate: e.target.value })
-                    }
-                    required
-                    min={formData.startDate || new Date().toISOString().split('T')[0]}
-                  />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !formData.endDate && "text-muted-foreground"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {formData.endDate ? format(new Date(formData.endDate), "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 dark" align="start">
+                      <CalendarComponent
+                        mode="single"
+                        captionLayout="dropdown"
+                        selected={formData.endDate ? new Date(formData.endDate) : undefined}
+                        onSelect={(date) => setFormData({ ...formData, endDate: date ? format(date, "yyyy-MM-dd") : '' })}
+                        disabled={(date) => {
+                          const minDate = formData.startDate ? new Date(formData.startDate) : new Date();
+                          return date < minDate;
+                        }}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
               </div>
 

@@ -108,7 +108,7 @@ export function UserManagementPage() {
                   <SelectTrigger>
                     <SelectValue placeholder="All Status" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='dark'>
                     <SelectItem value="all">All Status</SelectItem>
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="pending">Pending</SelectItem>
@@ -130,7 +130,7 @@ export function UserManagementPage() {
                   <SelectTrigger>
                     <SelectValue placeholder="All Roles" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='dark'>
                     <SelectItem value="all">All Roles</SelectItem>
                     <SelectItem value="employee">Employee</SelectItem>
                     <SelectItem value="manager">Manager</SelectItem>

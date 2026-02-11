@@ -174,7 +174,7 @@ export function MyLeavesPage() {
                 <SelectTrigger className="w-45">
                   <SelectValue placeholder="All Statuses" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent position="item-aligned" className="dark">
                   <SelectItem value="all">All Statuses</SelectItem>
                   <SelectItem value="pending">Pending</SelectItem>
                   <SelectItem value="approved">Approved</SelectItem>

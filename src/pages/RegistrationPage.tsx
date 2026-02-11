@@ -216,7 +216,7 @@ export function RegistrationPage() {
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
+                        <PopoverContent className="w-auto p-0 dark" align="start">
                           <Calendar
                             mode="single"
                             captionLayout="dropdown"

@@ -4,9 +4,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Calendar as CalendarComponent } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { toast } from 'sonner';
 import { Users, Check, X, Mail, Phone, Calendar } from 'lucide-react';
 import { formatDate } from '@/helper/formatDate';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 export function PendingUsersPage() {
   const { data, isLoading } = useGetPendingUsersQuery();
@@ -236,12 +240,32 @@ export function PendingUsersPage() {
                 </div>
                 <div>
                   <Label htmlFor="joiningDate">Joining Date</Label>
-                  <Input
-                    id="joiningDate"
-                    type="date"
-                    value={approveData.joiningDate}
-                    onChange={(e) => setApproveData({ ...approveData, joiningDate: e.target.value })}
-                  />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !approveData.joiningDate && "text-muted-foreground"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {approveData.joiningDate ? format(new Date(approveData.joiningDate), "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 dark" align="start">
+                      <CalendarComponent
+                        mode="single"
+                        captionLayout="dropdown"
+                        selected={approveData.joiningDate ? new Date(approveData.joiningDate) : undefined}
+                        onSelect={(date) => setApproveData({ ...approveData, joiningDate: date ? format(date, "yyyy-MM-dd") : '' })}
+                        disabled={(date) =>
+                          date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 <div>
                   <Label htmlFor="roles">Roles *</Label>
