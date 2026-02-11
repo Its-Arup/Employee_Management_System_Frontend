@@ -231,7 +231,7 @@ export function MySalariesPage() {
                 {/* Net Salary */}
                 <div className="bg-green-50 p-4 rounded-lg">
                   <div className="flex justify-between items-center">
-                    <span className="text-lg font-semibold">Net Salary:</span>
+                    <span className="text-lg font-semibold text-secondary">Net Salary:</span>
                     <span className="text-2xl font-bold text-green-600">₹{selectedSalary.netSalary.toLocaleString()}</span>
                   </div>
                 </div>

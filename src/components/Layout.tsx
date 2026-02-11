@@ -46,6 +46,7 @@ export const Layout = ({ children }: LayoutProps) => {
     { name: 'My Leaves', icon: Calendar, path: '/leaves/my-leaves', show: true },
     { name: 'My Salary', icon: DollarSign, path: '/salaries', show: true },
     { name: 'Leave Requests', icon: Clock, path: '/leaves/manage', show: hasManagementAccess },
+    { name: 'Manage Salaries', icon: DollarSign, path: '/admin/salaries', show: isAdmin || isHR },
     { name: 'Pending Users', icon: UserCheck, path: '/admin/pending-users', show: isAdmin || isHR },
     { name: 'Manage Users', icon: Users, path: '/admin/users', show: isAdmin || isHR },
   ];

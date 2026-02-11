@@ -9,6 +9,9 @@ import { DashboardPage } from "@/pages/DashboardPage";
 import { ApplyLeavePage } from "@/pages/ApplyLeavePage";
 import { MyLeavesPage } from "@/pages/MyLeavesPage";
 import { MySalariesPage } from "@/pages/MySalariesPage";
+import { SalaryManagementPage } from "@/pages/SalaryManagementPage";
+import { CreateSalaryPage } from "@/pages/CreateSalaryPage";
+import { SalaryDetailPage } from "@/pages/SalaryDetailPage";
 import { PendingUsersPage } from "@/pages/PendingUsersPage";
 import { LeaveManagementPage } from "@/pages/LeaveManagementPage";
 import { UserManagementPage } from "@/pages/UserManagementPage";
@@ -100,6 +103,36 @@ export function AppRoutes() {
           <ProtectedRoute>
             <Layout>
               <MySalariesPage />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/salaries"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <SalaryManagementPage />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/salaries/create"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <CreateSalaryPage />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/salaries/:salaryId"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <SalaryDetailPage />
             </Layout>
           </ProtectedRoute>
         }

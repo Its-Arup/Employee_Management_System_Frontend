@@ -189,14 +189,24 @@ const DashboardPage = () => {
                     <span>Leave Requests</span>
                   </Button>
                   {(isAdmin || isHR) && (
-                    <Button
-                      variant="outline"
-                      className="h-24 flex flex-col items-center justify-center gap-2 cursor-pointer"
-                      onClick={() => navigate('/admin/pending-users')}
-                    >
-                      <UserCheck className="w-6 h-6" />
-                      <span>Pending Users</span>
-                    </Button>
+                    <>
+                      <Button
+                        variant="outline"
+                        className="h-24 flex flex-col items-center justify-center gap-2 cursor-pointer"
+                        onClick={() => navigate('/admin/pending-users')}
+                      >
+                        <UserCheck className="w-6 h-6" />
+                        <span>Pending Users</span>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="h-24 flex flex-col items-center justify-center gap-2 cursor-pointer"
+                        onClick={() => navigate('/admin/salaries')}
+                      >
+                        <DollarSign className="w-6 h-6" />
+                        <span>Manage Salaries</span>
+                      </Button>
+                    </>
                   )}
                 </div>
               </CardContent>

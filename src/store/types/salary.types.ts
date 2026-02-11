@@ -59,6 +59,9 @@ export interface CreateSalaryRequest {
   month: number;
   year: number;
   structure: SalaryStructure;
+  grossSalary: number;
+  totalDeductions: number;
+  netSalary: number;
   workingDays: number;
   presentDays: number;
   leaveDays: number;
