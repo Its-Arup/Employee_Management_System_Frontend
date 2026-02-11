@@ -5,7 +5,9 @@ import {
   useRejectLeaveMutation,
 } from '@/store/api/leaveApi';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { LeaveTypeBadge } from '@/components/LeaveTypeBadge';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -17,7 +19,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Check, X,Clock, Calendar } from 'lucide-react';
+import { Check, X, Clock } from 'lucide-react';
 import { formatDate } from '@/helper/formatDate';
 
 export function LeaveManagementPage() {
@@ -79,22 +81,6 @@ export function LeaveManagementPage() {
     }
   };
 
-  const getLeaveTypeBadge = (type: string) => {
-    const colors = {
-      casual: 'bg-blue-100 text-blue-800',
-      sick: 'bg-purple-100 text-purple-800',
-      paid: 'bg-green-100 text-green-800',
-      unpaid: 'bg-gray-100 text-gray-800',
-      maternity: 'bg-pink-100 text-pink-800',
-      paternity: 'bg-indigo-100 text-indigo-800',
-    };
-    return (
-      <span className={`px-2 py-1 rounded-md text-xs font-medium ${colors[type as keyof typeof colors]}`}>
-        {type.charAt(0).toUpperCase() + type.slice(1)}
-      </span>
-    );
-  };
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -137,11 +123,11 @@ export function LeaveManagementPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-3">
                         <h3 className="text-lg font-semibold">{leave.userId.displayName}</h3>
-                        {getLeaveTypeBadge(leave.leaveType)}
+                        <LeaveTypeBadge type={leave.leaveType} />
                         {leave.isHalfDay && (
-                          <span className="px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-800">
+                          <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300">
                             Half Day ({leave.halfDayPeriod?.replace('-', ' ')})
-                          </span>
+                          </Badge>
                         )}
                       </div>
 

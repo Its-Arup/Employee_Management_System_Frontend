@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { RoleBadge } from '@/components/RoleBadge';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
@@ -112,12 +113,7 @@ const DashboardPage = () => {
                 <p className="text-sm text-muted-foreground">Roles</p>
                 <div className="flex gap-2 mt-1">
                   {user?.roles?.map((role) => (
-                    <span
-                      key={role}
-                      className="px-2 py-1 text-xs rounded-md bg-primary/10 text-primary font-medium"
-                    >
-                      {role}
-                    </span>
+                    <RoleBadge key={role} role={role} />
                   ))}
                 </div>
               </div>
@@ -222,12 +218,7 @@ const DashboardPage = () => {
                   <p className="text-sm text-muted-foreground">Roles</p>
                   <div className="flex gap-1 mt-1 flex-wrap">
                     {user?.roles?.map((role) => (
-                      <span
-                        key={role}
-                        className="px-2 py-1 text-xs rounded-md bg-primary/10 text-primary font-medium"
-                      >
-                        {role}
-                      </span>
+                      <RoleBadge key={role} role={role} />
                     ))}
                   </div>
                 </div>

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useGetAllUsersQuery } from '@/store/api/adminApi';
 import { Button } from '@/components/ui/button';
+import { StatusBadge } from '@/components/StatusBadge';
+import { RoleBadge } from '@/components/RoleBadge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
@@ -25,34 +27,6 @@ export function UserManagementPage() {
 
   const users = data?.data?.users || [];
   const pagination = data?.data?.pagination;
-
-  const getStatusBadge = (status: string) => {
-    const variants = {
-      active: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-      pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-      suspended: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
-      rejected: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300',
-    };
-    return (
-      <span className={`px-2 py-1 rounded-md text-xs font-medium ${variants[status as keyof typeof variants]}`}>
-        {status.charAt(0).toUpperCase() + status.slice(1)}
-      </span>
-    );
-  };
-
-  const getRoleBadge = (role: string) => {
-    const variants = {
-      admin: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
-      hr: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
-      manager: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300',
-      employee: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300',
-    };
-    return (
-      <span className={`px-2 py-1 rounded-md text-xs font-medium ${variants[role as keyof typeof variants]}`}>
-        {role.charAt(0).toUpperCase() + role.slice(1)}
-      </span>
-    );
-  };
 
   if (isLoading) {
     return (
@@ -168,7 +142,7 @@ export function UserManagementPage() {
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
                           <h3 className="text-lg font-semibold">{user.displayName}</h3>
-                          {getStatusBadge(user.status)}
+                          <StatusBadge status={user.status} />
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-sm mb-3">
                           <div>
@@ -210,7 +184,7 @@ export function UserManagementPage() {
                           <p className="text-xs text-muted-foreground">Roles:</p>
                           <div className="flex gap-1">
                             {user.roles.map((role: string) => (
-                              <span key={role}>{getRoleBadge(role)}</span>
+                              <RoleBadge key={role} role={role} />
                             ))}
                           </div>
                         </div>

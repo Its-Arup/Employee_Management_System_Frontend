@@ -5,10 +5,13 @@ import {
   useCancelLeaveMutation,
 } from '@/store/api/leaveApi';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/StatusBadge';
+import { LeaveTypeBadge } from '@/components/LeaveTypeBadge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Calendar, Plus, X, Clock, Check, Ban } from 'lucide-react';
+import { Calendar, Plus, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '@/helper/formatDate';
 
@@ -40,40 +43,6 @@ export function MyLeavesPage() {
         description: error.data?.message || 'An error occurred while cancelling the leave.',
       });
     }
-  };
-
-  const getStatusBadge = (status: string) => {
-    const badges = {
-      pending: { icon: Clock, color: 'bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-700' },
-      approved: { icon: Check, color: 'bg-green-100 text-green-800 border-green-300 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700' },
-      rejected: { icon: X, color: 'bg-red-100 text-red-800 border-red-300 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700' },
-      cancelled: { icon: Ban, color: 'bg-gray-100 text-gray-800 border-gray-300 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600' },
-    };
-    const badge = badges[status as keyof typeof badges] || badges.pending;
-    const Icon = badge.icon;
-
-    return (
-      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium border ${badge.color}`}>
-        <Icon className="w-3 h-3" />
-        {status.charAt(0).toUpperCase() + status.slice(1)}
-      </span>
-    );
-  };
-
-  const getLeaveTypeBadge = (type: string) => {
-    const colors = {
-      casual: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
-      sick: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
-      paid: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-      unpaid: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300',
-      maternity: 'bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-300',
-      paternity: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300',
-    };
-    return (
-      <span className={`px-2 py-1 rounded-md text-xs font-medium ${colors[type as keyof typeof colors]}`}>
-        {type.charAt(0).toUpperCase() + type.slice(1)}
-      </span>
-    );
   };
 
   if (leavesLoading || balanceLoading) {
@@ -212,12 +181,12 @@ export function MyLeavesPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          {getLeaveTypeBadge(leave.leaveType)}
-                          {getStatusBadge(leave.status)}
+                          <LeaveTypeBadge type={leave.leaveType} />
+                          <StatusBadge status={leave.status} showIcon />
                           {leave.isHalfDay && (
-                            <span className="px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300">
+                            <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300">
                               Half Day ({leave.halfDayPeriod?.replace('-', ' ')})
-                            </span>
+                            </Badge>
                           )}
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">

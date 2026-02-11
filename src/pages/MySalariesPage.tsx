@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useGetMySalariesQuery } from '@/store/api/salaryApi';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { StatusBadge } from '@/components/StatusBadge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DollarSign, Calendar, Download, Eye } from 'lucide-react';
+import { DollarSign, Eye } from 'lucide-react';
 import { formatDate } from '@/helper/formatDate';
 
 export function MySalariesPage() {
@@ -15,20 +16,6 @@ export function MySalariesPage() {
 
   const salaries = data?.data?.salaries || [];
   const pagination = data?.data?.pagination;
-
-  const getStatusBadge = (status: string) => {
-    const colors = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      processed: 'bg-blue-100 text-blue-800',
-      paid: 'bg-green-100 text-green-800',
-      'on-hold': 'bg-gray-100 text-gray-800',
-    };
-    return (
-      <span className={`px-2 py-1 rounded-md text-xs font-medium ${colors[status as keyof typeof colors]}`}>
-        {status.toUpperCase()}
-      </span>
-    );
-  };
 
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -97,7 +84,7 @@ export function MySalariesPage() {
                     <CardTitle className="text-lg">
                       {monthNames[salary.month - 1]} {salary.year}
                     </CardTitle>
-                    {getStatusBadge(salary.status)}
+                    <StatusBadge status={salary.status} />
                   </div>
                   <CardDescription>
                     {salary.isProrated ? 'Prorated Salary' : 'Full Salary'}

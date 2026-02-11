@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useGetPendingUsersQuery, useApproveUserMutation, useRejectUserMutation } from '@/store/api/adminApi';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
@@ -159,9 +160,9 @@ export function PendingUsersPage() {
                         Registered on {formatDate(user.createdAt)}
                       </p>
                       <div className="mt-2">
-                        <span className={`px-2 py-1 rounded text-xs ${user.isEmailVerified ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                        <Badge className={user.isEmailVerified ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300'}>
                           {user.isEmailVerified ? '✓ Email Verified' : 'Email Not Verified'}
-                        </span>
+                        </Badge>
                       </div>
                     </div>
                     <div className="flex flex-col gap-2">
