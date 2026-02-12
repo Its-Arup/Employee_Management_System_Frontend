@@ -37,7 +37,7 @@ export function PendingUsersPage() {
     if (!selectedUser) return;
 
     try {
-      const result = await approveUser({
+      await approveUser({
         userId: selectedUser._id,
         data: {
           ...approveData,
@@ -307,7 +307,7 @@ export function PendingUsersPage() {
                     id="reason"
                     value={rejectReason}
                     onChange={(e) => setRejectReason(e.target.value)}
-                    className="w-full px-3 py-2 border border-input rounded-md bg-background min-h-[100px]"
+                    className="w-full px-3 py-2 border border-input rounded-md bg-background min-h-25"
                     placeholder="Please provide the reason for rejecting this user..."
                     required
                     minLength={10}
