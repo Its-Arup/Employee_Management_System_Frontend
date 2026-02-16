@@ -74,86 +74,90 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md shadow-2xl">
-        <CardHeader className="space-y-1 text-center">
-          <div className="flex justify-center mb-4">
-            <div className="p-3 rounded-full bg-primary/10">
-              <LogIn className="w-8 h-8 text-primary" />
-            </div>
-          </div>
-          <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
-          <CardDescription className="text-base">
-            Enter your credentials to access your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Email Field */}
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-2">
-                      <Mail className="w-4 h-4" />
-                      Email
-                    </FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="john@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    // <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    //   <Card className="w-full max-w-md shadow-2xl">
+    //     <CardHeader className="space-y-1 text-center">
+    //       <div className="flex justify-center mb-4">
+    //         <div className="p-3 rounded-full bg-primary/10">
+    //           <LogIn className="w-8 h-8 text-primary" />
+    //         </div>
+    //       </div>
+    //       <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
+    //       <CardDescription className="text-base">
+    //         Enter your credentials to access your account
+    //       </CardDescription>
+    //     </CardHeader>
+    //     <CardContent>
+    //       <Form {...form}>
+    //         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    //           {/* Email Field */}
+    //           <FormField
+    //             control={form.control}
+    //             name="email"
+    //             render={({ field }) => (
+    //               <FormItem>
+    //                 <FormLabel className="flex items-center gap-2">
+    //                   <Mail className="w-4 h-4" />
+    //                   Email
+    //                 </FormLabel>
+    //                 <FormControl>
+    //                   <Input type="email" placeholder="john@example.com" {...field} />
+    //                 </FormControl>
+    //                 <FormMessage />
+    //               </FormItem>
+    //             )}
+    //           />
 
-              {/* Password Field */}
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-2">
-                      <Lock className="w-4 h-4" />
-                      Password
-                    </FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    //           {/* Password Field */}
+    //           <FormField
+    //             control={form.control}
+    //             name="password"
+    //             render={({ field }) => (
+    //               <FormItem>
+    //                 <FormLabel className="flex items-center gap-2">
+    //                   <Lock className="w-4 h-4" />
+    //                   Password
+    //                 </FormLabel>
+    //                 <FormControl>
+    //                   <Input type="password" placeholder="••••••••" {...field} />
+    //                 </FormControl>
+    //                 <FormMessage />
+    //               </FormItem>
+    //             )}
+    //           />
 
-              <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 text-sm">
-                  <input type="checkbox" className="rounded" />
-                  <span className="text-muted-foreground">Remember me</span>
-                </label>
-                <a href="#" className="text-sm text-primary hover:underline font-medium">
-                  Forgot password?
-                </a>
-              </div>
+    //           <div className="flex items-center justify-between">
+    //             <label className="flex items-center gap-2 text-sm">
+    //               <input type="checkbox" className="rounded" />
+    //               <span className="text-muted-foreground">Remember me</span>
+    //             </label>
+    //             <a href="#" className="text-sm text-primary hover:underline font-medium">
+    //               Forgot password?
+    //             </a>
+    //           </div>
 
-              <Button 
-                type="submit" 
-                className="w-full h-11 text-base font-semibold cursor-pointer"
-                disabled={isLoading}
-              >
-                {isLoading ? "Signing In..." : "Sign In"}
-              </Button>
+    //           <Button 
+    //             type="submit" 
+    //             className="w-full h-11 text-base font-semibold cursor-pointer"
+    //             disabled={isLoading}
+    //           >
+    //             {isLoading ? "Signing In..." : "Sign In"}
+    //           </Button>
 
-              <p className="text-center text-sm text-muted-foreground mt-4">
-                Don't have an account?{" "}
-                <Link to="/register" className="text-primary hover:underline font-medium">
-                  Sign up
-                </Link>
-              </p>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </div>
+    //           <p className="text-center text-sm text-muted-foreground mt-4">
+    //             Don't have an account?{" "}
+    //             <Link to="/register" className="text-primary hover:underline font-medium">
+    //               Sign up
+    //             </Link>
+    //           </p>
+    //         </form>
+    //       </Form>
+    //     </CardContent>
+    //   </Card>
+    // </div>
+    <iframe
+ src="https://staging.channex.io/auth/exchange?oauth_session_key=9c6c8349-9a2a-4ae9-acfa-4441f9fdc944&app_mode=headless&redirect_to=/channels&property_id=70049da3-a9d1-446f-a663-296b182e2e8a"
+>
+</iframe>
   );
 }
