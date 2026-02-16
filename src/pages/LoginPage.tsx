@@ -158,7 +158,8 @@ export function LoginPage() {
       </Card>
     </div>
     <iframe
- src="https://staging.channex.io/auth/exchange?oauth_session_key=9c6c8349-9a2a-4ae9-acfa-4441f9fdc944&app_mode=headless&redirect_to=/channels&property_id=70049da3-a9d1-446f-a663-296b182e2e8a"
+    className="h-screen w-screen border-0"
+ src="https://staging.channex.io/auth/exchange?oauth_session_key=c7d56adf-f542-4983-bf47-b643174f95f0&app_mode=headless&redirect_to=/channels&property_id=70049da3-a9d1-446f-a663-296b182e2e8a"
 >
 </iframe>
 </>
