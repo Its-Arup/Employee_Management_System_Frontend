@@ -8,7 +8,6 @@ import {
 } from '@/components/ui/card';
 import { RoleBadge } from '@/components/RoleBadge';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import {
   User,
   Calendar,
